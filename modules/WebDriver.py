@@ -29,7 +29,6 @@ def wait_by_xpath(driver, xpath:str):
 def click_by_xpath(driver, xpath:str):
     element = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, xpath)))
     element.click()
-    print("click")
 
 # 次へ
 def move_to_next(driver, xpath:str):
@@ -39,14 +38,15 @@ def move_to_next(driver, xpath:str):
 # 画像を保存
 def save_image(save_directory:str, driver, xpath:str, attr:str="src"):
     element = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, xpath)))
-    image_url = element.get_attribute(attr)
-    response = requests.get(image_url)
-    if response.status_code == 200:
-        parsed_url = urllib.parse.urlparse(image_url)
-        filename = os.path.basename(parsed_url.path)
-        save_path = os.path.join(save_directory, filename)
-        with open(save_path, "wb") as file:
-            file.write(response.content)
-        print(f"Saved: {save_path}")
-    else:
-        print(f"Failed: {save_path}")
+    image_url = str(element.get_attribute(attr))
+    if image_url:
+        response = requests.get(image_url)
+        if response.status_code == 200:
+            parsed_url = urllib.parse.urlparse(image_url)
+            filename = str(os.path.basename(parsed_url.path))
+            save_path = os.path.join(save_directory, filename)
+            with open(save_path, "wb") as file:
+                file.write(response.content)
+            print(f"Saved: {save_path}")
+        else:
+            print(f"Save failed: {response.status_code} | {image_url}")
