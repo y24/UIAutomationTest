@@ -8,10 +8,14 @@ import os
 import urllib.parse
 
 # ブラウザをセットアップ
-def setup_driver(headless=False):
+def setup_driver(headless=False, remote_debug=False, page_load_strategy=False):
     options = Options()
     if headless:
         options.add_argument('--headless')  # ヘッドレスモード
+    if remote_debug:
+        options.add_experimental_option("debuggerAddress", "127.0.0.1:9222")  #リモートデバッグモードで起動したChromeに接続
+    if page_load_strategy:
+        options.page_load_strategy = 'none'  # ページ遷移時に読み込み完了まで待たない
     options.add_argument('--disable-gpu')
     driver = webdriver.Chrome(options=options)
     return driver

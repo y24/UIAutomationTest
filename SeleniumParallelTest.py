@@ -12,13 +12,8 @@ from modules import WebDriver as WD
 # chrome.exe --remote-debugging-port=9222 --user-data-dir="C:\chrome-debug"
 
 try:
-    # ブラウザに接続
-    chrome_options = Options()
-    chrome_options.add_experimental_option("debuggerAddress", "127.0.0.1:9222")
-    chrome_options.page_load_strategy = 'none'  # ページ遷移時に読み込み完了まで待たない
-
     # WebDriverセットアップ
-    driver = webdriver.Chrome(options=chrome_options)
+    driver = WD.setup_driver(headless=False, remote_debug=True, page_load_strategy=True)
 
     # 検索クエリ
     queries = ["bbb", "ccc", "ddd", "fff"]
