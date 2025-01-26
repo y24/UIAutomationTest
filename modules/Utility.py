@@ -8,7 +8,7 @@ def make_directory(dir_name:str):
     os.makedirs(dir_name, exist_ok=True)
 
 # URLを分割して最後のディレクトリを取得
-def get_url_last_directory(url:str, num:int):
+def get_url_last_directory(url:str, num:int=-1):
     parsed_url = urlparse(url)
     path_parts = parsed_url.path.rstrip('/').split('/')
     return path_parts[num] if path_parts else None
