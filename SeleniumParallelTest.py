@@ -1,7 +1,5 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 from modules import WebDriver as WD
 from modules import Logger
@@ -36,8 +34,8 @@ try:
         driver.get("https://www.google.co.jp")
 
         # 検索窓
-        xpath = '//textarea[@title="検索"]'
-        search_box = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, xpath)))
+        search_box = WD.wait_by_xpath(driver, '//textarea[@title="検索"]')
+
         # 検索
         query = queries[index]
         search_box.send_keys(query)
