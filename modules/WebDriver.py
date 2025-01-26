@@ -7,6 +7,8 @@ import requests
 import os
 import urllib.parse
 
+TIMEOUT = 10
+
 # ブラウザをセットアップ
 def setup_driver(headless=False, remote_debug=False, page_load_strategy=False):
     options = Options()
@@ -20,28 +22,28 @@ def setup_driver(headless=False, remote_debug=False, page_load_strategy=False):
     driver = webdriver.Chrome(options=options)
     return driver
 
-# テキスト取得
+# innerTextを取得
 def get_text_by_xpath(driver, xpath:str):
-    element = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, xpath)))
+    element = WebDriverWait(driver, TIMEOUT).until(EC.element_to_be_clickable((By.XPATH, xpath)))
     return element.text
 
 # 要素が現れるまで待機
 def wait_by_xpath(driver, xpath:str):
-    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, xpath)))
+    WebDriverWait(driver, TIMEOUT).until(EC.element_to_be_clickable((By.XPATH, xpath)))
 
 # 要素をクリック
 def click_by_xpath(driver, xpath:str):
-    element = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, xpath)))
+    element = WebDriverWait(driver, TIMEOUT).until(EC.element_to_be_clickable((By.XPATH, xpath)))
     element.click()
 
-# 次へ
-def move_to_next(driver, xpath:str):
+# 要素からhrefを取得して移動
+def move_to_href(driver, xpath:str):
     next_url = driver.find_element(By.XPATH, xpath).get_attribute("href")
     driver.get(next_url)
 
 # 画像を保存
-def save_image(save_directory:str, driver, xpath:str, attr:str="src"):
-    element = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, xpath)))
+def save_img_src(save_directory:str, driver, xpath:str, attr:str="src"):
+    element = WebDriverWait(driver, TIMEOUT).until(EC.element_to_be_clickable((By.XPATH, xpath)))
     image_url = str(element.get_attribute(attr))
     if image_url:
         response = requests.get(image_url)
