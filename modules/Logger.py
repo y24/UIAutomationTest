@@ -1,5 +1,8 @@
 from logging import getLogger, StreamHandler, FileHandler, Formatter, ERROR, WARNING, INFO, DEBUG
 
+# from modules import Logger
+# logger = Logger.get_logger(__name__, console=True, file=False, trace_line=False)
+
 # カスタムフォーマッター
 class CustomFormatter(Formatter):
     # 色設定
